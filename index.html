@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTurk Task</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+        iframe { width: 100%; border: 1px solid #ccc; margin-bottom: 20px; }
+        .instructions { font-size: 16px; margin-bottom: 20px; }
+    </style>
+    <script>
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const hitId = getQueryParam("hitId");
+            const assignmentId = getQueryParam("assignmentId");
+            const workerId = getQueryParam("workerId");
+            const documentUrl = getQueryParam("document_url");
+            const isPreview = assignmentId === "ASSIGNMENT_ID_NOT_AVAILABLE";
+
+            document.getElementById("pdfFrame").src = documentUrl;
+            document.getElementById("formFrame").src = `https://creatorapp.zohopublic.com/predicata/invoice-scraper/form-embed/Mturk_XPO/tDhY6tn84ONJUbdjZ6KJWHDr0Tezn9PXV3YKZ2Zu4dTwX7JJ7AbEzEKZr1WJY7F1B8DJw9Pnaq2JVt1DGQ7E4ZVYYWS4Dn3wxQDV?hitId=${hitId}&assignmentId=${assignmentId}&workerId=${workerId}`;
+
+            if (isPreview) {
+                document.getElementById("previewMessage").style.display = "block";
+            } else {
+                document.getElementById("submitButton").style.display = "block";
+            }
+        });
+
+        function submitTask() {
+            const assignmentId = getQueryParam("assignmentId");
+            if (!assignmentId || assignmentId === "ASSIGNMENT_ID_NOT_AVAILABLE") {
+                alert("Error: Assignment ID is missing or not available.");
+                return;
+            }
+            const redirectUrl = `https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=${encodeURIComponent(assignmentId)}&status=complete`;
+            window.location.href = redirectUrl;
+        }
+    </script>
+</head>
+<body>
+
+<div style="display: flex; flex-direction: row; gap: 20px;">
+    <div style="flex: 40%; border-right: 2px solid #ddd; padding-right: 20px;">
+        <p><strong>Review the PDF:</strong></p>
+        <iframe id="pdfFrame" width="100%" height="1600px" style="border: 1px solid #ccc;"></iframe>
+    </div>
+    <div style="flex: 60%;">
+        <p><strong>Instructions:</strong></p>
+        <span>Read the Instructions from the link and fill the form accordingly -- 
+            <strong><a href="https://xpologisticsinvoices0v1.s3.us-east-1.amazonaws.com/Instructions.pdf" target="_new">Open Instructions</a></strong>.
+        </span>
+        <br><br>
+        <h3>Form to Submit</h3>
+        <iframe id="formFrame" height="600"></iframe>
+
+        <p id="previewMessage" style="color: red; display: none;"><strong>You must accept the task before submitting.</strong></p>
+        
+        <button id="submitButton" style="display: none;" onclick="submitTask()">Submit Task to MTurk Sandbox</button>
+    </div>
+</div>
+
+<p>Once you complete the form, return to MTurk and submit your work.</p>
+
+</body>
+</html>
