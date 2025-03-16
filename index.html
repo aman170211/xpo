@@ -39,7 +39,10 @@
                 return;
             }
             const redirectUrl = `https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=${encodeURIComponent(assignmentId)}&status=complete`;
-            window.location.href = redirectUrl;
+           
+// window.location.href = redirectUrl;
+            window.open(redirectUrl, "_blank");
+            alert("Your task has been submitted! You can close this window.");
         }
     </script>
 </head>
