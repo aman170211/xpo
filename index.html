@@ -20,30 +20,10 @@
             const assignmentId = getQueryParam("assignmentId");
             const workerId = getQueryParam("workerId");
             const documentUrl = getQueryParam("document_url");
-            const isPreview = assignmentId === "ASSIGNMENT_ID_NOT_AVAILABLE";
-
+            
             document.getElementById("pdfFrame").src = documentUrl;
             document.getElementById("formFrame").src = `https://creatorapp.zohopublic.com/predicata/invoice-scraper/form-embed/Mturk_XPO/tDhY6tn84ONJUbdjZ6KJWHDr0Tezn9PXV3YKZ2Zu4dTwX7JJ7AbEzEKZr1WJY7F1B8DJw9Pnaq2JVt1DGQ7E4ZVYYWS4Dn3wxQDV?hitId=${hitId}&assignmentId=${assignmentId}&workerId=${workerId}`;
-
-            if (isPreview) {
-                document.getElementById("previewMessage").style.display = "block";
-            } else {
-                document.getElementById("submitButton").style.display = "block";
-            }
         });
-
-        function submitTask() {
-            const assignmentId = getQueryParam("assignmentId");
-            if (!assignmentId || assignmentId === "ASSIGNMENT_ID_NOT_AVAILABLE") {
-                alert("Error: Assignment ID is missing or not available.");
-                return;
-            }
-            const redirectUrl = `https://workersandbox.mturk.com/mturk/externalSubmit?assignmentId=${encodeURIComponent(assignmentId)}&status=complete`;
-           
-            window.location.href = redirectUrl;
-            //window.open(redirectUrl, "_blank");
-            //alert("Your task has been submitted! You can close this window.");
-        }
     </script>
 </head>
 <body>
@@ -60,11 +40,7 @@
         </span>
         <br><br>
         <h3>Form to Submit</h3>
-        <iframe id="formFrame" height="600"></iframe>
-
-        <p id="previewMessage" style="color: red; display: none;"><strong>You must accept the task before submitting.</strong></p>
-        
-        <button id="submitButton" style="display: none;" onclick="submitTask()">Submit Task to MTurk Sandbox</button>
+        <iframe id="formFrame" height="800"></iframe>
     </div>
 </div>
 
